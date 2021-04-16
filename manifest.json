@@ -1,30 +1,37 @@
 {
-    "manifest_version": 2,
-    "name": "Phish hook",
-    "version": "1.0.0",
-    "description": "This is a sample description",
-    "short_name": "Phook",
-    "permissions": [
-        "activeTab",
-        "declarativeContent",
-        "storage",
+  "manifest_version": 2,
+  "name": "Phish hook",
+  "version": "0.0.1",
+  "description": "This is a sample description",
+  "short_name": "Phook",
+  "permissions": [
+    "activeTab",
+    "declarativeContent",
+    "storage",
+    "<all_urls>"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "default_locale": "en",
+  "content_scripts": [
+    {
+      "matches": [
         "<all_urls>"
-    ],
-    "content_scripts": [
-        {
-            "matches": [
-                "<all_urls>"
-            ],
-            "css": [
-                "background.css"
-            ],
-            "js": [
-                "background.js"
-            ]
-        }
-    ],
-    "browser_action": {
-        "default_title": "Does a thing when you do a thing",
-        "default_popup": "popup.html"
+      ],
+      "css": [
+        "src/content_scripts/content_scripts.css"
+      ],
+      "js": [
+        "src/content_scripts/content_scripts.js"
+      ]
     }
+  ],
+  "browser_action": {
+    "default_icon": "icons/icon19.png",
+    "default_title": "Phook",
+    "default_popup": "src/browser_action/browser_action.html"
+  }
 }
