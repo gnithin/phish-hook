@@ -1,0 +1,30 @@
+{
+    "manifest_version": 2,
+    "name": "Phish hook",
+    "version": "1.0.0",
+    "description": "This is a sample description",
+    "short_name": "Phook",
+    "permissions": [
+        "activeTab",
+        "declarativeContent",
+        "storage",
+        "<all_urls>"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "css": [
+                "background.css"
+            ],
+            "js": [
+                "background.js"
+            ]
+        }
+    ],
+    "browser_action": {
+        "default_title": "Does a thing when you do a thing",
+        "default_popup": "popup.html"
+    }
+}
