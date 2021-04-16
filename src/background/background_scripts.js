@@ -12,15 +12,19 @@ const displayUrl = (url) => {
 
   // TODO: Find malicious content
   if (hostname === "stackoverflow.com") {
-    // Do something here!
     chrome.notifications.create('', {
-      title: 'Just wanted to notify you',
-      message: 'How great it is!',
+      title: 'Phishing Alert!',
+      message: 'This site may be malicious, click here to know more!',
       iconUrl: '/icons/icon19.png',
-      type: 'basic'
+      type: 'basic',
     });
   }
 }
+
+chrome.notifications.onClicked.addListener((id) => {
+  chrome.notifications.clear(id);
+  chrome.tabs.create({ url: "src/browser_action/browser_action.html" });
+});
 
 // When the url in the tab changes
 chrome.tabs.onUpdated.addListener(
