@@ -1,1 +1,1 @@
-console.log("Sample!");
+console.log("From the background");
