@@ -5,6 +5,7 @@
   "description": "This is a sample description",
   "short_name": "Phook",
   "permissions": [
+    "tabs",
     "activeTab",
     "declarativeContent",
     "storage",
