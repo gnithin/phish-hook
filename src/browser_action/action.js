@@ -1,1 +1,1 @@
-console.log("From the background");
+console.log("ACTION!");
