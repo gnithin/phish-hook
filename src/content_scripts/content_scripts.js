@@ -1,24 +1,38 @@
-chrome.extension.onMessage.addListener(
-  function (request, sender, sendResponse) {
-    chrome.pageAction.show(sender.tab.id);
-    sendResponse();
-  }
-);
-
 console.log("From the background page!");
 
+const displayUrl = (url) => {
+  if (!url) {
+    return;
+  }
+
+  let domain = (new URL(url));
+  let hostname = domain.hostname;
+
+  console.log("Domain - ", domain.hostname);
+  if (hostname === "stackoverflow.com") {
+
+    // Do something here!
+    chrome.notifications.create('', {
+      title: 'Just wanted to notify you',
+      message: 'How great it is!',
+      iconUrl: '/icons/icon19.png',
+      type: 'basic'
+    });
+  }
+}
+
+// When the url in the tab changes
 chrome.tabs.onUpdated.addListener(
   (_, info, __) => {
     if (info && info.url) {
-      console.log("Change url - ", info.url);
+      displayUrl(info.url);
     }
   }
 );
 
+// When tabs are switched
 chrome.tabs.onActivated.addListener((activeInfo) => {
-  console.log("On Activated called!");
   chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-    let url = tabs[0].url;
-    console.log("Current url - ", url);
+    displayUrl(tabs[0].url);
   });
 });

@@ -7,7 +7,7 @@
   "permissions": [
     "tabs",
     "activeTab",
-    "declarativeContent",
+    "notifications",
     "storage",
     "<all_urls>"
   ],
