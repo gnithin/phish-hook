@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+  "name": "Phish hook",
+  "version": "0.0.1",
+  "description": "This is a sample description",
+  "short_name": "Phook",
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "declarativeContent",
+    "storage",
+    "<all_urls>"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "default_locale": "en",
+  "background": {
+    "scripts": [
+      "src/content_scripts/content_scripts.js"
+    ],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_icon": "icons/icon19.png",
+    "default_title": "Phook",
+    "default_popup": "src/browser_action/browser_action.html"
+  }
+}
