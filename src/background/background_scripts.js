@@ -9,8 +9,9 @@ const displayUrl = (url) => {
   let hostname = domain.hostname;
 
   console.log("Domain - ", domain.hostname);
-  if (hostname === "stackoverflow.com") {
 
+  // TODO: Find malicious content
+  if (hostname === "stackoverflow.com") {
     // Do something here!
     chrome.notifications.create('', {
       title: 'Just wanted to notify you',
