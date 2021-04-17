@@ -1,7 +1,7 @@
 # Extension to detect Phishing
 
 ## Local Setup
-TODO:
+- Load the `extensions` dir in the chrome `chrome://extensions`
 
 ### Server
 - Go into the `{ROOT}/server` and run `. venv/bin/activate` to activate the virtual env 
