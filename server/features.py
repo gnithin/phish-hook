@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
 from email.utils import parseaddr
 import ipaddress
+import tldextract
 
 def get_features_for_url(url):
     url_domain, url_directory, url_file, url_query = get_url_parts(url)
@@ -12,9 +13,9 @@ def get_features_for_url(url):
     # Features for the whole url
     features = get_counts(url)
 
-    # qty_tld_url
-    # TODO: Not sure how to get the tld
-    features.append(3)
+    # qty_tld_url - Top level domain character length
+    tld = get_tld(url)
+    features.append(len(tld))
 
     # length_url
     features.append(len(url))
@@ -33,7 +34,7 @@ def get_features_for_url(url):
     # qty_vowels_domain
     num_vowels = 0
     for v in "aeiou":
-        num_vowels += url_domain.count(v)
+        num_vowels += url_domain.lower().count(v)
     features.append(num_vowels)
 
     # domain_length
@@ -67,8 +68,11 @@ def get_features_for_url(url):
     # Params Length
     features.append(len(url_query))
 
-    # TODO: tld_present_params - TLDpresent in parameters
-    features.append(0)
+    # tld_present_params - TLDpresent in parameters
+    tld_present_params = 0
+    if tld in url_query:
+        tld_present_params = 1
+    features.append(tld_present_params)
 
     # qty_params - Number of parameters
     features.append(url_query.count("&"))
@@ -160,6 +164,10 @@ def does_domain_have_ip(url_domain):
         return False
     else:
         return True
+
+def get_tld(url):
+    extract = tldextract.extract(url)
+    return extract.domain
 
 def test_get_url_parts():
     samples = {
