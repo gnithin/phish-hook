@@ -8,10 +8,10 @@
 - Run `pip install -r requirements.txt` to install dependencies.
 - Set `export FLASK_ENV=development` for enabling debugging (auto-reload, descriptive error messages)
 - Run `python app.py` to start the server
-
+- Create an `.env` file with content as `PR_API=<open-page-rank-API-key>`. The API can be retrieved for free at [Open Page Rank](https://www.domcop.com/openpagerank/auth/signup).
 
 #### Endpoints 
-- `POST /detect`
+- `POST /detect` 
 Here's a curl request -
 ```
 curl --location --request POST 'localhost:9999/detect' \
