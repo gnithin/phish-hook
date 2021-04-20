@@ -1,4 +1,6 @@
 from urllib.parse import urlparse
+from email.utils import parseaddr
+import ipaddress
 
 def get_features_for_url(url):
     url_domain, url_directory, url_file, url_query = get_url_parts(url)
@@ -17,9 +19,13 @@ def get_features_for_url(url):
     # length_url
     features.append(len(url))
 
-    # email_in_url
-    # TODO: Find if email exists in a string
-    features.append(0)
+    # TODO: email_in_url
+    # Find if email exists in a string
+    has_email = 0
+    if does_str_have_email(url):
+        has_email = 1
+    print("Does email exist", has_email)
+    features.append(has_email)
 
     # Features on domain URL
     features.extend(get_counts(url_domain))
@@ -33,8 +39,11 @@ def get_features_for_url(url):
     # domain_length
     features.append(len(url_domain))
 
-    # TODO: domain_in_ip
-    features.append(0)
+    # domain_in_ip
+    has_ip_in_domain = 0
+    if does_domain_have_ip(url_domain):
+        has_ip_in_domain = 1
+    features.append(has_ip_in_domain)
 
     # server_client_domain
     s_c_in_domain = "server" in url_domain or "client" in url_domain
@@ -61,8 +70,8 @@ def get_features_for_url(url):
     # TODO: tld_present_params - TLDpresent in parameters
     features.append(0)
 
-    # TODO: qty_params - Number of parameters
-    features.append(0)
+    # qty_params - Number of parameters
+    features.append(url_query.count("&"))
 
     # TODO: The additional features come here (more on this later)
 
@@ -136,6 +145,21 @@ def get_url_parts(url):
             parsed_res.query
             ]
 
+def does_str_have_email(s):
+    # TODO: Change this
+    return not parseaddr(s)[1].strip() == ''
+
+
+def does_domain_have_ip(url_domain):
+    try:
+        domain_val = url_domain
+        if domain_val.count(":") == 1:
+            domain_val = domain_val.split(":")[0]
+        ip = ipaddress.ip_address(domain_val)
+    except:
+        return False
+    else:
+        return True
 
 def test_get_url_parts():
     samples = {
@@ -148,9 +172,24 @@ def test_get_url_parts():
     for link, expected in samples.items():
         assert get_url_parts(link) == expected
 
+def test_ip_in_url():
+    samples = {
+            "https://192.1.0.1/examples/index.php?q=example&y=2020": True,
+            "https://192.1.0.1:8199/examples/index.php?q=example&y=2020": True,
+            "https://example.com/examples/index.php?q=example&y=2020":False,
+            "https://example.com/index.php?q=example&y=2020": False,
+            "https://example.com/?q=example&y=2020": False,
+            "https://example.com/": False,
+            }
+
+    for link, expected in samples.items():
+        parts = get_url_parts(link)
+        assert does_domain_have_ip(parts[0]) == expected
+
 if __name__ == "__main__":
     # A quick test
     test_get_url_parts()
+    test_ip_in_url()
 
     url = "https://example.com/examples/index.php?q=example&y=2020"
 
