@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from urllib.parse import urlparse
+from features import get_features_for_url
 
 app = Flask(__name__)
 
@@ -24,10 +25,9 @@ def detect():
 
 def is_malicious(url):
     # TODO: Add ML predict logic here
-    parsed_url = urlparse(url)
-    domain = parsed_url.netloc
-    return domain == "stackoverflow.com"
-
+    features = get_features_for_url(url)
+    res = clf.predict(features)[0]
+    return res == 1
 
 if __name__ == '__main__':
-      app.run(host='0.0.0.0', port=9999)
+    app.run(host='0.0.0.0', port=9999)
