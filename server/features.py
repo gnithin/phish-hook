@@ -2,6 +2,7 @@ from urllib.parse import urlparse
 from email.utils import parseaddr
 import ipaddress
 import tldextract
+from validate_email import validate_email
 
 def get_features_for_url(url):
     url_domain, url_directory, url_file, url_query = get_url_parts(url)
@@ -20,12 +21,11 @@ def get_features_for_url(url):
     # length_url
     features.append(len(url))
 
-    # TODO: email_in_url
+    # email_in_url
     # Find if email exists in a string
     has_email = 0
     if does_str_have_email(url):
         has_email = 1
-    print("Does email exist", has_email)
     features.append(has_email)
 
     # Features on domain URL
@@ -149,9 +149,11 @@ def get_url_parts(url):
             parsed_res.query
             ]
 
+
 def does_str_have_email(s):
-    # TODO: Change this
-    return not parseaddr(s)[1].strip() == ''
+    # NOTE: This will be inexact, since it's a hard problem. 
+    # Going with the most simple/dumb solution
+    return "@" in s and not parseaddr(s)[1].strip() == ''
 
 
 def does_domain_have_ip(url_domain):
