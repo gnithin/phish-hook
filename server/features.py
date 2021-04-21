@@ -63,14 +63,19 @@ def get_features_for_url(url):
     features.append(len(url_file))
 
     # Features on query-params
-    features.extend(get_counts(url_query))
+    query_features = get_counts(url_query)
+    if len(url_query) == 0:
+        query_features = [-1 for i in range(len(query_features))]
+    features.extend(query_features)
 
     # Params Length
     features.append(len(url_query))
 
     # tld_present_params - TLDpresent in parameters
     tld_present_params = 0
-    if tld in url_query:
+    if len(url_query) == 0:
+        tld_present_params = -1
+    elif tld in url_query:
         tld_present_params = 1
     features.append(tld_present_params)
 
