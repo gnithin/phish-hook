@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from urllib.parse import urlparse
 from features import get_features_for_url
+from grega_classifier import GregaClassifier
 
 import pickle
 import numpy as np
@@ -9,12 +10,12 @@ from uci import Phishing
 
 app = Flask(__name__)
 
-phishing = Phishing('models/decision-uci.joblib')
-clf = None
+classifiers = []
 
-@app.route('/detect', methods=['POST'])
+
+@app.route("/detect", methods=["POST"])
 def detect():
-    url = request.form['url']
+    url = request.form["url"]
     resp = {
         "success": True,
         "message": "",
@@ -33,30 +34,25 @@ def detect():
 
 
 def is_malicious(url):
-    # TODO: Incorporate this
-    # return phishing.is_phishing(url)
-    # Add ML predict logic here
-    global clf
-    print(f"Processing ${url}")
-    print(clf)
-    features = get_features_for_url(url)
-    print(features)
-    feature_input = np.array(features).reshape(1,-1)
-    res = clf.predict(feature_input)
-    print(res)
-    if res[0] == 1:
-        return True
-    return False
+    global classifiers
+    res = [c.predict(url) for c in classifiers]
+    # TODO: change this
+    return res[0]
 
 
-def setup_model():
-    global clf
-    with open('./model.pkl', 'rb') as f:    # load
-        clf = pickle.load(f)
+def setup_models():
+    global classifiers
 
-if __name__ == '__main__':
-    # build the model
-    setup_model()
-    print("Loaded the model!")
+    grega_clf = GregaClassifier("./model.pkl")
+    classifiers.append(grega_clf)
+
+    uci_clf = Phishing("models/decision-uci.joblib")
+    classifiers.append(uci_clf)
+
+
+if __name__ == "__main__":
+    print("Loading the models!")
+    setup_models()
+
     print("Running the server")
-    app.run(host='0.0.0.0', port=9999)
+    app.run(host="0.0.0.0", port=9999)
