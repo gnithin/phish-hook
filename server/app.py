@@ -2,14 +2,11 @@ from flask import Flask, request, jsonify
 from urllib.parse import urlparse
 from features import get_features_for_url
 from grega_classifier import GregaClassifier
-
 import pickle
 import numpy as np
-
 from uci import Phishing
 
 app = Flask(__name__)
-
 classifiers = []
 
 
