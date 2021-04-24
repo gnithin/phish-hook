@@ -13,6 +13,14 @@ UCI_MODEL_PATH = "./models/uci/decision-uci.joblib"
 GREGA_MODEL_PATH = "./models/grega/ensemble-knn-rf-dt.pkl"
 
 
+def is_valid_url(url):
+    if url is None or len(url.strip()) == 0:
+        return False
+    parsed_url = urlparse(url)
+    scheme = parsed_url.scheme
+    return scheme in ("http", "https")
+
+
 @app.route("/detect", methods=["POST"])
 def detect():
     url = request.form["url"]
@@ -24,9 +32,11 @@ def detect():
         "payload": "",
     }
 
-    if not url:
+    print(f"URL - {url}")
+
+    if not is_valid_url(url):
         resp["success"] = False
-        resp["message"] = "url data-field is missing!"
+        resp["message"] = "Invalid url"
 
     else:
         resp["success"] = True
