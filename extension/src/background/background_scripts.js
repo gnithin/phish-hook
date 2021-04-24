@@ -30,7 +30,7 @@ const processUrl = async (url) => {
   const resp = await detectMalicious(url);
   console.log("RESPONSE - ", resp);
 
-  if (!resp.is_malicious) {
+  if (!resp.is_phishing) {
     return;
   }
 

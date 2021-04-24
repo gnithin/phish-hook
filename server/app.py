@@ -19,25 +19,37 @@ def detect():
     resp = {
         "success": True,
         "message": "",
-        "is_malicious": False,
+        "is_phishing": False,
         "payload": "",
     }
+
     if not url:
         resp["success"] = False
         resp["message"] = "url data-field is missing!"
     else:
         resp["success"] = True
-        resp["is_malicious"] = is_malicious(url)
+        resp["is_phishing"] = is_phishing(url)
         resp["payload"] = url
 
     return jsonify(resp)
 
 
-def is_malicious(url):
+def is_phishing(url):
     global classifiers
-    res = [c.predict(url) for c in classifiers]
-    # TODO: change this
-    return res[0]
+    is_mal_count = 0
+    is_not_mal_count = 0
+    for c in classifiers:
+        if c.predict(url):
+            is_mal_count += 1
+        else:
+            is_not_mal_count += 1
+
+    if is_mal_count == 0 or is_not_mal_count == 0:
+        # we've got a definite result here
+        return is_mal_count > 0:
+
+    # TODO: Return unsure result
+    return False
 
 
 def setup_models():
