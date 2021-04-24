@@ -19,6 +19,7 @@ def detect():
     resp = {
         "success": True,
         "message": "",
+        "consensus_reached": True,
         "is_phishing": False,
         "payload": "",
     }
@@ -26,9 +27,12 @@ def detect():
     if not url:
         resp["success"] = False
         resp["message"] = "url data-field is missing!"
+
     else:
         resp["success"] = True
-        resp["is_phishing"] = is_phishing(url)
+        phishing_result, consensus_reached = is_phishing(url)
+        resp["is_phishing"] = phishing_result
+        resp["consensus_reached"] = consensus_reached
         resp["payload"] = url
 
     return jsonify(resp)
@@ -46,10 +50,12 @@ def is_phishing(url):
 
     if is_mal_count == 0 or is_not_mal_count == 0:
         # we've got a definite result here
-        return is_mal_count > 0:
+        return (is_mal_count > 0, True)
 
-    # TODO: Return unsure result
-    return False
+    # NOTE: Defaulting to phishing if unsure. A decision can be taken by the frontend about this info.
+    # But in the future, if there many other entries, picking the majority should also work
+    # Return unsure result
+    return (True, False)
 
 
 def setup_models():
