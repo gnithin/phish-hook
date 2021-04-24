@@ -50,6 +50,12 @@ const processUrl = async (url) => {
   if (!consensusReached) {
     // TODO: Think about consensus not reached
     console.log("Consensus has not been reached!")
+    chrome.notifications.create('', {
+      title: 'Caution!',
+      message: 'Make sure to exercise caution when submitting personal data to this site. Click here to know more!',
+      iconUrl: '/icons/icon19.png',
+      type: 'basic',
+    });
     return;
   }
 
