@@ -9,6 +9,9 @@ from uci import Phishing
 app = Flask(__name__)
 classifiers = []
 
+UCI_MODEL_PATH = "./models/uci/decision-uci.joblib"
+GREGA_MODEL_PATH = "./models/grega/ensemble-knn-rf-dt.pkl"
+
 
 @app.route("/detect", methods=["POST"])
 def detect():
@@ -58,10 +61,10 @@ def is_phishing(url):
 def setup_models():
     global classifiers
 
-    grega_clf = GregaClassifier("./model.pkl")
+    grega_clf = GregaClassifier(GREGA_MODEL_PATH)
     classifiers.append(grega_clf)
 
-    uci_clf = Phishing("models/decision-uci.joblib")
+    uci_clf = Phishing(UCI_MODEL_PATH)
     classifiers.append(uci_clf)
 
 
