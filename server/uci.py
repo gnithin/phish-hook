@@ -174,6 +174,13 @@ class Phishing:
         data = r.json()
         page_rank = data["response"][0]["page_rank_decimal"]
 
+        # Handling the weird case when the response is a string
+        if isinstance(page_rank, str):
+            try:
+                page_rank = int(page_rank)
+            except:
+                page_rank = None
+
         if page_rank is not None and page_rank >= 2:
             return self.LEGITIMATE
         else:
