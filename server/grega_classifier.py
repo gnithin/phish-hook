@@ -6,7 +6,7 @@ import numpy as np
 
 class GregaClassifier(AbstractClassifier):
     def __init__(self, modelPath):
-        with open("./model.pkl", "rb") as f:
+        with open(modelPath, "rb") as f:
             self.clf = pickle.load(f)
 
     def predict(self, url) -> bool:
