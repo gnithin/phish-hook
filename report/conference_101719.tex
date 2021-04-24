@@ -55,12 +55,20 @@ With the recent advancement in various cybersecurity technology, the weakest lin
 Attackers utilize phishing which exploits naivety of users to trick them into handing out sensitive information.
 This poses a great risk not only to the users themselves but the organizations and institutions of which they are a part of.
 According to recent research from Proofpoint, 75\% of organizations around the world experienced a phishing attack in 2020, and 74\% of attacks targeting US businesses were successful \cite{stateofphishing}.
+
 \par Apart from increasing security awareness among users, we must develop tools which complement that awareness to help them make safe decisions.
 This report proposes and demonstrates a \href{https://www.chromium.org/Home}{Chromium}-based browser extension to help mitigate the risk of phishing while browsing the web.
+The central idea of the browser extension is to notify the user whenever they open any \emph{potential} phishing website.
 
-\par The central idea of the browser extension is to notify the user whenever they open any \emph{potential} phishing website.
-The solution also included a Python web server to which the browser extension communicates to determine the legitimacy of a web page.
-As of now, the web server takes in a URL and returns a boolean value stating if the given URL is part of a potential phishing attempt.
+\par The solution also includes a Python web server which utilizes various Machine Learning classification techniques to determine the legitimacy of the webpage in question.
+The web server takes in a URL and returns a boolean value indicating if the given URL is part of a potential phishing attempt.
+
+\par The browser extension monitors each URL that the user visits, and tries to determine if the URL is malicious with the help of the web server.
+The web server exposes a REST API which is consumed by the extension for communication.
+The same API can also be reused as-is to implement a similar phishing detection in a different context like a network-level application or in a mobile application like Android.
+
+\par //TODO  "summary of experimental results which is more fine-grained than abstract."
+
 \section{Ease of Use}
 
 \subsection{Maintaining the Integrity of the Specifications}
