@@ -3,23 +3,39 @@ console.log("From the background page!");
 const BASE_URL = "http://localhost:9999";
 const DETECT_ENDPOINT = `${BASE_URL}/detect`;
 
-const detectMalicious = async (url) => {
-  // Make the api call 
+const detectUrlPhishing = async (url) => {
+  const defaultResp = {
+    isPhishing: false,
+    consensusReached: true,
+  };
 
-  const response = await fetch(DETECT_ENDPOINT, {
-    method: 'POST',
-    // mode: 'cors', // no-cors, *cors, same-origin
-    // credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    // redirect: 'follow', // manual, *follow, error
-    // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: new URLSearchParams({
-      'url': url
-    }),
-  });
-  return response.json();
+  // Make the api call 
+  console.log("URL - ", url);
+
+  try {
+    const response = await fetch(DETECT_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        'url': url
+      }),
+    });
+
+    const respJson = await response.json();
+    console.log("RESPONSE - ", respJson)
+
+    if (respJson.success) {
+      defaultResp.consensusReached = respJson["consensus_reached"]
+      defaultResp.isPhishing = respJson["is_phishing"]
+    }
+
+  } catch (e) {
+    console.log("Error in fetch - ", e)
+  }
+
+  return defaultResp
 }
 
 const processUrl = async (url) => {
@@ -27,19 +43,24 @@ const processUrl = async (url) => {
     return;
   }
 
-  const resp = await detectMalicious(url);
-  console.log("RESPONSE - ", resp);
+  const { isPhishing, consensusReached } = await detectUrlPhishing(url);
+  console.log("RESPONSE - isPhishing - ", isPhishing);
+  console.log("RESPONSE - consensusReached - ", consensusReached);
 
-  if (!resp.is_phishing) {
+  if (!consensusReached) {
+    // TODO: Think about consensus not reached
+    console.log("Consensus has not been reached!")
     return;
   }
 
-  chrome.notifications.create('', {
-    title: 'Phishing Alert!',
-    message: 'This site may be malicious, click here to know more!',
-    iconUrl: '/icons/icon19.png',
-    type: 'basic',
-  });
+  if (isPhishing) {
+    chrome.notifications.create('', {
+      title: 'Phishing Alert!',
+      message: 'This site may be malicious, click here to know more!',
+      iconUrl: '/icons/icon19.png',
+      type: 'basic',
+    });
+  }
 }
 
 chrome.notifications.onClicked.addListener((id) => {
