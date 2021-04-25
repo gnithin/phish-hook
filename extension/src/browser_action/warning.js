@@ -12,6 +12,7 @@ class Warning extends React.Component {
         super(props);
 
         this.state = {
+            loading: true,
             data: null,
         };
     }
@@ -26,11 +27,15 @@ class Warning extends React.Component {
     }
 
     loadData(id) {
+        this.setState({ loading: true });
         console.log("Loading data for id - ", id);
         chrome.storage.local.get([id], (result) => {
             console.log('Value currently is ', result);
             // Change the state
-            this.setState({ data: result[id] });
+            this.setState({
+                loading: false,
+                data: result[id],
+            });
         });
     }
 
@@ -38,6 +43,18 @@ class Warning extends React.Component {
         let url = ""
         if (this.state.data) {
             url = this.state.data.url;
+        }
+
+        // TODO: Show loading
+        if (this.state.loading) {
+            /*
+            <div className-"loading">
+                Loading...
+            <div>
+            */
+            return React.createElement(
+                'div', { className: "loading" }, "Loading..."
+            );
         }
 
         /*
