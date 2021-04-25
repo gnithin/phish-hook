@@ -7,3 +7,4 @@ joblib~=1.0.1
 py3-validate-email
 tldextract
 python-whois
+scikit-learn
