@@ -1,6 +1,6 @@
 # Extension to detect Phishing
 
-## Setup
+## Local Setup
 
 ### Chrome Extension
 - Navigate to chrome://extensions
@@ -10,6 +10,8 @@
 - The extension should load into your browser
 
 ### Server
+Some steps need to be done, irrespective of what path you choose to run the server locally 
+- Create an `${PROJECT_ROOT}/server/.env` file with content as `PR_API=<open-page-rank-API-key>`. The API can be retrieved for free at [Open Page Rank](https://www.domcop.com/openpagerank/auth/signup).
 
 #### Running the server using Docker
 - Install Docker
@@ -17,11 +19,10 @@
 - Run the container - `docker run -p 9999:9999 phish-server`. This should setup a server running in port 9999.
 
 #### Running the server in local environment (without docker)
-- Go into the `{ROOT}/server` and run `. venv/bin/activate` to activate the virtual env 
+- Go into the `cd {ROOT}/server` and run `. venv/bin/activate` to activate the virtual env 
 - Run `pip install -r requirements.txt` to install dependencies.
 - Set `export FLASK_ENV=development` for enabling debugging (auto-reload, descriptive error messages)
 - Run `python app.py` to start the server
-- Create an `.env` file with content as `PR_API=<open-page-rank-API-key>`. The API can be retrieved for free at [Open Page Rank](https://www.domcop.com/openpagerank/auth/signup).
 
 #### Endpoints 
 - `POST /detect` 
