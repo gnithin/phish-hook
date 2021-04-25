@@ -1,0 +1,27 @@
+body {
+    color: #000;
+    width: 100%;
+    height: 100%;
+    font-size: x-large;
+    background-color: lightgray;
+}
+
+.warning-container {
+    width: 50%;
+    margin: 100px auto;
+}
+
+.warning h1 {
+    color: yellow;
+    text-shadow: 2px 2px black;
+}
+
+.alert h1 {
+    color: red;
+    text-shadow: 2px 2px black;
+}
+
+.link {
+    margin-top: 20px;
+    font-size: small;
+}

@@ -2,7 +2,11 @@ window.onload = () => {
     console.log("Page loaded!")
 
     ReactDOM.render(
-        React.createElement(Warning, {}),
+        React.createElement(
+            "div",
+            { className: "warning-container" },
+            React.createElement(Warning, {}),
+        ),
         document.getElementById('root')
     );
 };
@@ -75,6 +79,11 @@ class Warning extends React.Component {
         }
 
         let url = this.state.data.url;
+        let linkElement = React.createElement(
+            'div',
+            { key: 'link', className: "link" },
+            `Link: ${url}`
+        );
 
         if (!this.state.data.consensusReached) {
             /*
@@ -86,7 +95,8 @@ class Warning extends React.Component {
             return React.createElement(
                 'div', { className: "warning" }, [
                 React.createElement('h1', { key: '1' }, "Warning!"),
-                React.createElement('div', { key: '2' }, "Exercise caution if this site asks for personal information! One of our models flagged this site as potential phishing site. Just letting you know to be cautious!")
+                React.createElement('div', { key: '2' }, "Exercise caution if this site asks for personal information! One of our models flagged this site as potential phishing site. Just letting you know to be cautious!"),
+                linkElement,
             ]);
         }
 
@@ -95,12 +105,14 @@ class Warning extends React.Component {
         <div>
             <h1>Alert!</h1>
             <div>Our models flagged this site as a potential Phishing site. Tread lightly, or better yet, close this page!</div>
+            <div class="link"> link </div>
         </div>
         */
         return React.createElement(
             'div', { className: "alert" }, [
             React.createElement('h1', { key: '1' }, "Alert!"),
             React.createElement('div', { key: '2' }, "Our models flagged this site as a potential Phishing site. Tread lightly, or better yet, close this page!"),
+            linkElement,
         ]);
     }
 }
