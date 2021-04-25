@@ -48,7 +48,6 @@ const processUrl = async (url) => {
   console.log("RESPONSE - consensusReached - ", consensusReached);
 
   const storageKey = md5(`${encodeURI(url)}-${Math.round((new Date).getTime())}`);
-  console.log("STORAGE key - ", storageKey);
 
   const data = {
     [storageKey]: {
