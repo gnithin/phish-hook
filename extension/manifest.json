@@ -21,6 +21,7 @@
     "page": "src/background/background.html",
     "persistent": true
   },
+  "content_security_policy": "script-src 'self' https://unpkg.com; object-src 'self'",
   "browser_action": {
     "default_icon": "icons/icon19.png",
     "default_title": "Phook",
