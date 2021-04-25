@@ -47,10 +47,25 @@ const processUrl = async (url) => {
   console.log("RESPONSE - isPhishing - ", isPhishing);
   console.log("RESPONSE - consensusReached - ", consensusReached);
 
+  const storageKey = md5(`${encodeURI(url)}-${Math.round((new Date).getTime())}`);
+  console.log("STORAGE key - ", storageKey);
+
+  const data = {
+    [storageKey]: {
+      url: url,
+      isPhishing: isPhishing,
+      consensusReached: consensusReached,
+    }
+  };
+
+  chrome.storage.local.set(data, function () {
+    console.log("Data stored!")
+  });
+
   if (!consensusReached) {
     // TODO: Think about consensus not reached
     console.log("Consensus has not been reached!")
-    chrome.notifications.create('', {
+    chrome.notifications.create(storageKey, {
       title: 'Caution!',
       message: 'Exercise caution when submitting personal data to this site. Click here to know more!',
       iconUrl: '/icons/icon19.png',
@@ -60,7 +75,7 @@ const processUrl = async (url) => {
   }
 
   if (isPhishing) {
-    chrome.notifications.create('', {
+    chrome.notifications.create(storageKey, {
       title: 'Phishing Alert!',
       message: 'This site may be malicious, Click here to know more!',
       iconUrl: '/icons/icon19.png',
@@ -71,7 +86,8 @@ const processUrl = async (url) => {
 
 chrome.notifications.onClicked.addListener((id) => {
   chrome.notifications.clear(id);
-  chrome.tabs.create({ url: "src/browser_action/warning.html" });
+  console.log("ID to fetch - ", id);
+  chrome.tabs.create({ url: `src/browser_action/warning.html?id=${id}` });
 });
 
 // When the url in the tab changes

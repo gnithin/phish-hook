@@ -18,9 +18,7 @@
   },
   "default_locale": "en",
   "background": {
-    "scripts": [
-      "src/background/background_scripts.js"
-    ],
+    "page": "src/background/background.html",
     "persistent": true
   },
   "browser_action": {
