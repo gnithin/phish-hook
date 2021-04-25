@@ -39,8 +39,18 @@ class Warning extends React.Component {
         if (this.state.data) {
             url = this.state.data.url;
         }
+
+        /*
+        <div>
+            <h1>Warning!</h1>
+            <div>Exercise caution if this site asks for personal information! One of our models flagged this site as potential phishing site. Just letting you know to be cautious!</div>
+        </div>
+        */
         return React.createElement(
-            'h1', null, 'Greetings, ' + url
+            'div', null, [
+            React.createElement('h1', { key: '1' }, "Warning!"),
+            React.createElement('div', { key: '2' }, "Exercise caution if this site asks for personal information! One of our models flagged this site as potential phishing site. Just letting you know to be cautious!")
+        ]
         );
     }
 }
