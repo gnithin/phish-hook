@@ -16,8 +16,9 @@ RUN apt install netcat -y
 #Installing Python3
 RUN apt install python3 -y
 
-ENTRYPOINT tail -f /dev/null
+RUN apt install python3-pip -y
 
+# Run the flask server
 WORKDIR /app
 
 COPY . .
