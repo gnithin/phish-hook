@@ -18,12 +18,13 @@ RUN apt install python3 -y
 
 RUN apt install python3-pip -y
 
-# Run the flask server
-WORKDIR /app
-
+# Install all requirements
 COPY . .
+
+WORKDIR "/server"
 
 RUN pip3 install -r requirements.txt
 
+# Run the flask server
 CMD [ "python3", "app.py"]
 
