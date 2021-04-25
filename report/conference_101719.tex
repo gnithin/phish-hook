@@ -1,7 +1,8 @@
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
 % The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
-\usepackage{cite}
+\usepackage[superscript]{cite}
+\usepackage{url}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
 \usepackage{graphicx}
@@ -83,6 +84,8 @@ It also seems to be particularly accurate when it comes to identifying illegitim
 Even though rule-based systems are great for detecting simple phishing attempts, they are not ideal for more sophisticated phishing attempts.
 Rule-based systems are also inherently complex to maintain - adding and modifying rules over time makes the system more complex and unmanageable with time.
 They also demand more human intervention to define the rules and for their maintenance.
+Using Machine Learning in lieu of rule-based system gets rid of many of these limitations.
+As Machine Learning is data centric, it doesn't require managing complex rules and makes it straightforward to tweak the algorithms.
 
 \paragraph{Cloudphish\cite{Cloudphish}}
 Cloudphish is a phishing detector for web-based email software.
@@ -90,8 +93,10 @@ It monitors all emails received by a user and checks each email for a phishing a
 Having a paid subscription model, it offers a \emph{decent} service.
 But the major limitation it has is that it works only with the email inbox.
 Even though many of the phishing attacks are carried over through email, phishing is as prominent on social media and messaging apps in this age.
-And that calls for a solution which monitors all the web activity to identify phishing attacks regardless of their method of delivery to the user.
+And that calls for a solution which monitors all the web activity to identify phishing attacks regardless of their method of delivery.
 
+\par There are various other browser extensions which virtually have the same limitations as the aforementioned solutions\cite{BlueArca}\cite{Retruster}\cite{PhishingBoat}
+As their limitations are encompassed in the discussion of other solutions above, their detailed analysis has been skipped for brevity.
 \section{Approach}
 % From the report requirement:
 % [≈ 1 to 1.5 pages]
