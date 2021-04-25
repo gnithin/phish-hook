@@ -6,3 +6,4 @@ report/*.log
 report/*.synctex.gz
 report/*.blg
 report/*.out
+report/*.bbl

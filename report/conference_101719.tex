@@ -76,11 +76,21 @@ The same API can also be reused as-is to implement a similar phishing detection 
 % summarized in this section. It is required to have at least 5 related works and references in this
 % section that have been published in top venues. Google Scholar is the best search engine to find
 % similar works
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Velit laoreet id donec ultrices tincidunt arcu non. Duis convallis convallis tellus id interdum velit laoreet. Vitae tempus quam pellentesque nec nam aliquam. Tortor vitae purus faucibus ornare suspendisse sed nisi lacus. Nec nam aliquam sem et. Pretium quam vulputate dignissim suspendisse in est. Amet massa vitae tortor condimentum. Malesuada nunc vel risus commodo viverra maecenas. Sed adipiscing diam donec adipiscing tristique risus nec feugiat. Libero enim sed faucibus turpis in. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Fames ac turpis egestas maecenas pharetra. Scelerisque eleifend donec pretium vulputate sapien nec sagittis aliquam malesuada. Enim lobortis scelerisque fermentum dui faucibus in ornare. Ipsum consequat nisl vel pretium lectus quam id leo. Cursus risus at ultrices mi tempus imperdiet nulla malesuada pellentesque. In est ante in nibh mauris cursus mattis. Ac turpis egestas maecenas pharetra convallis posuere morbi leo urna.
+\paragraph{PhishDetector\cite{PhishDetector}}
+This too is a Chromium extension which has set out to solve exactly the same problem as this project.
+Based to its description on the website and the analysis of its behavior, it can be concluded that this extension uses a rule-based system to determine if a webpage is a phishing attempt.
+It also seems to be particularly accurate when it comes to identifying illegitimate banking pages.
+Even though rule-based systems are great for detecting simple phishing attempts, they are not ideal for more sophisticated phishing attempts.
+Rule-based systems are also inherently complex to maintain - adding and modifying rules over time makes the system more complex and unmanageable with time.
+They also demand more human intervention to define the rules and for their maintenance.
 
-Condimentum lacinia quis vel eros donec ac odio. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim cras. Viverra adipiscing at in tellus integer feugiat scelerisque. Cras tincidunt lobortis feugiat vivamus. Quis enim lobortis scelerisque fermentum dui faucibus. Nulla posuere sollicitudin aliquam ultrices sagittis. Aliquet lectus proin nibh nisl. Sit amet tellus cras adipiscing. Consequat mauris nunc congue nisi vitae suscipit tellus. Blandit volutpat maecenas volutpat blandit aliquam etiam. Sagittis eu volutpat odio facilisis mauris sit amet massa vitae. Ipsum dolor sit amet consectetur. Etiam dignissim diam quis enim lobortis.
-
-Habitasse platea dictumst quisque sagittis purus sit. Nibh mauris cursus mattis molestie. Risus ultricies tristique nulla aliquet enim tortor at. Duis ultricies lacus sed turpis tincidunt id. Enim ut sem viverra aliquet eget sit amet tellus cras. In eu mi bibendum neque egestas. Nulla facilisi cras fermentum odio eu feugiat pretium nibh ipsum. Morbi tempus iaculis urna id volutpat lacus laoreet. Aenean et tortor at risus. In dictum non consectetur a erat nam. Viverra ipsum nunc aliquet bibendum enim. A arcu cursus vitae congue mauris rhoncus aenean vel.
+\paragraph{Cloudphish\cite{Cloudphish}}
+Cloudphish is a phishing detector for web-based email software.
+It monitors all emails received by a user and checks each email for a phishing attack.
+Having a paid subscription model, it offers a \emph{decent} service.
+But the major limitation it has is that it works only with the email inbox.
+Even though many of the phishing attacks are carried over through email, phishing is as prominent on social media and messaging apps in this age.
+And that calls for a solution which monitors all the web activity to identify phishing attacks regardless of their method of delivery to the user.
 
 \section{Approach}
 % From the report requirement:
