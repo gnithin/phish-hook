@@ -7,6 +7,7 @@ import numpy as np
 from uci import Phishing
 from whitelist import Whitelist
 from joblib import Parallel, delayed
+import functools
 
 
 app = Flask(__name__)
@@ -63,6 +64,7 @@ def detect():
     return jsonify(resp)
 
 
+@functools.cache
 def is_phishing(url):
     global classifiers
     is_mal_count = 0
