@@ -6,13 +6,15 @@ import pickle
 import numpy as np
 from uci import Phishing
 from whitelist import Whitelist
+from joblib import Parallel, delayed
+
 
 app = Flask(__name__)
 classifiers = []
 whitelist = Whitelist()
 
 UCI_MODEL_PATH = "./models/uci/decision-uci.joblib"
-GREGA_MODEL_PATH = "./models/grega/ensemble-knn-rf-dt.pkl"
+GREGA_MODEL_PATH = "./models/grega/small-ensemble-knn-rf-dt.pkl"
 WHITELIST_CSV_PATH = "./data/whitelist_domains.csv"
 
 
@@ -61,17 +63,21 @@ def detect():
     return jsonify(resp)
 
 
-def is_whitelisted(url):
-    # TODO: Add logic
-    pass
-
-
 def is_phishing(url):
     global classifiers
     is_mal_count = 0
     is_not_mal_count = 0
-    for c in classifiers:
-        if c.predict(url):
+
+    def run_predict(c, url):
+        return c.predict(url)
+
+    # Predict in parallel
+    result = Parallel(n_jobs=len(classifiers))(
+        delayed(run_predict)(clf, url) for clf in classifiers
+    )
+
+    for r in classifiers:
+        if r:
             is_mal_count += 1
         else:
             is_not_mal_count += 1
