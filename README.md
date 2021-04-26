@@ -1,29 +1,34 @@
 # Extension to detect Phishing
 
 ## Local Setup
-- Load the `extensions` dir in the chrome `chrome://extensions`
+
+### Chrome Extension
+- Navigate to chrome://extensions
+- Toggle the "Developer mode" button to on (if not already done)
+- Click on the “Load Unpacked” button
+- Navigate to the local folder containing the `${PROJECT_ROOT}/extension` path
+- The extension should load into your browser
 
 ### Server
-- Go into the `{ROOT}/server` and run `. venv/bin/activate` to activate the virtual env 
+Some steps need to be done, irrespective of what path you choose to run the server locally 
+- Create an `${PROJECT_ROOT}/server/.env` file with content as `PR_API=<open-page-rank-API-key>`. The API can be retrieved for free at [Open Page Rank](https://www.domcop.com/openpagerank/auth/signup).
+
+#### Running the server using Docker
+- Install Docker
+- From the project root, run `docker build --tag phish-server .`. This will build the image 'phish-server'
+- Run the container - `docker run -p 9999:9999 phish-server`. This should setup a server running in port 9999.
+
+#### Running the server in local environment (without docker)
+- Go into the `cd {ROOT}/server` and run `. venv/bin/activate` to activate the virtual env 
 - Run `pip install -r requirements.txt` to install dependencies.
 - Set `export FLASK_ENV=development` for enabling debugging (auto-reload, descriptive error messages)
 - Run `python app.py` to start the server
 
-
 #### Endpoints 
-- `POST /detect`
+- `POST /detect` 
 Here's a curl request -
 ```
 curl --location --request POST 'localhost:9999/detect' \
 --form 'url="http://stackoverflow.com"'
 ```
 The only data this post request requires is a url field that sends the url of the page.
-
-
-## NOTES:
-- Going with building an extension with Chrome, since there's a lot of literature about it. Should ideally work with all Chromium based browsers. Need to test it out later.
-- Following this - https://css-tricks.com/how-to-build-a-chrome-extension/
-- There are a lot of boilerplates already available, but trying the basic thing out first. If it gets tougher, will use a boiler-plate (Our use-case is not convoluted).
-- Ended up using https://extensionizr.com/. It's exactly what I wanted. No chip-chip no jhik-jhik.
-
-

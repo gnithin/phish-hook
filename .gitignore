@@ -8,3 +8,4 @@ report/*.blg
 report/*.out
 report/*.bbl
 report/*.dvi
+.vscode
