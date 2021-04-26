@@ -5,12 +5,15 @@ from grega_classifier import GregaClassifier
 import pickle
 import numpy as np
 from uci import Phishing
+from whitelist import Whitelist
 
 app = Flask(__name__)
 classifiers = []
+whitelist = Whitelist()
 
 UCI_MODEL_PATH = "./models/uci/decision-uci.joblib"
 GREGA_MODEL_PATH = "./models/grega/ensemble-knn-rf-dt.pkl"
+WHITELIST_CSV_PATH = "./data/whitelist_domains.csv"
 
 
 def is_valid_url(url):
@@ -48,7 +51,16 @@ def detect():
     return jsonify(resp)
 
 
+def is_whitelisted(url):
+    # TODO: Add logic
+    pass
+
+
 def is_phishing(url):
+    # check if url is whitelisted
+    if whitelist.contains_url(url)):
+        return (False, True)
+
     global classifiers
     is_mal_count = 0
     is_not_mal_count = 0
@@ -78,7 +90,15 @@ def setup_models():
     classifiers.append(uci_clf)
 
 
+def setup_whitelist():
+    global whitelist
+    whitelist.load(WHITELIST_CSV_PATH)
+
+
 if __name__ == "__main__":
+    print("Setting up whitelist")
+    setup_whitelist()
+
     print("Loading the models!")
     setup_models()
 
