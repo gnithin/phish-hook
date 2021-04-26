@@ -1,6 +1,5 @@
 window.onload = () => {
-    console.log("Page loaded!")
-
+    // Load the root component 
     ReactDOM.render(
         React.createElement(
             "div",
@@ -11,6 +10,9 @@ window.onload = () => {
     );
 };
 
+/*
+Component that renders the warning message
+*/
 class Warning extends React.Component {
     constructor(props) {
         super(props);
