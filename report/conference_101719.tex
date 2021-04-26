@@ -125,6 +125,12 @@ The web server has an REST endpoint which takes in a URL and uses various Machin
 It extracts relevant ``features'' from the URL and feeds them to \emph{Classification Models} to determine the legitimacy of the URL.
 This process is expanded upon further down in this section.
 
+\begin{figure}[htbp]
+\centerline{\includegraphics[scale=.5]{phish-arch.png}}
+\caption{Architecture overview of the application}
+\label{fig}
+\end{figure}
+
 \par Classification is a process of categorizing a given set of data into classes.
 In this case, there would be two classification labels: ``spam'' and ``not spam''.
 And the input data would be values of various features of the URL which are deemed effective for high quality classification of any URL into one of the classes.
