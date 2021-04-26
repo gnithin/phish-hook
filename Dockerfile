@@ -13,8 +13,8 @@ RUN apt install curl -y
 RUN apt install net-tools -y
 RUN apt install netcat -y
 
-# Installing Python3 and Pip
-RUN apt install python3 -y
+# Installing Python3.9 and Pip
+RUN apt install python3.9 -y
 RUN apt install python3-pip -y
 
 # Copy the contents 
@@ -22,8 +22,8 @@ COPY . .
 WORKDIR "/server"
 
 # Install all the dependencies
-RUN pip3 install -r requirements.txt
+RUN python3.9 -m pip install -r requirements.txt
 
 # Run the flask server
-CMD [ "python3", "app.py"]
+CMD [ "python3.9", "app.py"]
 
