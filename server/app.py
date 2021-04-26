@@ -5,12 +5,17 @@ from grega_classifier import GregaClassifier
 import pickle
 import numpy as np
 from uci import Phishing
+from whitelist import Whitelist
+from joblib import Parallel, delayed
+
 
 app = Flask(__name__)
 classifiers = []
+whitelist = Whitelist()
 
 UCI_MODEL_PATH = "./models/uci/decision-uci.joblib"
-GREGA_MODEL_PATH = "./models/grega/ensemble-knn-rf-dt.pkl"
+GREGA_MODEL_PATH = "./models/grega/small-ensemble-knn-rf-dt.pkl"
+WHITELIST_CSV_PATH = "./data/whitelist_domains.csv"
 
 
 def is_valid_url(url):
@@ -38,6 +43,16 @@ def detect():
         resp["success"] = False
         resp["message"] = "Invalid url"
 
+    # check if url is whitelisted
+    elif whitelist.contains_url(url):
+        print(f"Whitelisted domain - {url}")
+
+        resp["success"] = True
+        resp["is_phishing"] = False
+        resp["consensus_reached"] = True
+        resp["payload"] = url
+        resp["message"] = "Whitelisted Url"
+
     else:
         resp["success"] = True
         phishing_result, consensus_reached = is_phishing(url)
@@ -52,8 +67,17 @@ def is_phishing(url):
     global classifiers
     is_mal_count = 0
     is_not_mal_count = 0
-    for c in classifiers:
-        if c.predict(url):
+
+    def run_predict(c, url):
+        return c.predict(url)
+
+    # Predict in parallel
+    result = Parallel(n_jobs=len(classifiers))(
+        delayed(run_predict)(clf, url) for clf in classifiers
+    )
+
+    for r in classifiers:
+        if r:
             is_mal_count += 1
         else:
             is_not_mal_count += 1
@@ -78,7 +102,15 @@ def setup_models():
     classifiers.append(uci_clf)
 
 
+def setup_whitelist():
+    global whitelist
+    whitelist.load(WHITELIST_CSV_PATH)
+
+
 if __name__ == "__main__":
+    print("Setting up whitelist")
+    setup_whitelist()
+
     print("Loading the models!")
     setup_models()
 
