@@ -143,16 +143,18 @@ As a common practice, the dataset on hand is split into training and testing dat
     \item Random Forests:
 \end{enumerate}
 
-\par The following section describes the datasets used for training and testing the aforementioned classifiers.
+\par The following section describes the datasets used for training and testing the models with the aforementioned classifiers.
 \begin{enumerate}
     \item Phishing Websites Dataset by UCI\cite{UCIDataset}:
-          This dataset has 11055 datapoints with 6157 legitimate URLs and 4898 phishing URLs.
+          This dataset has 11,055 datapoints with 6,157 legitimate URLs and 4,898 phishing URLs.
           And it contains 30 features subdivided into three categories:
           \begin{enumerate}
-            \item Features based on the domain and subdomains
-            \item Features derived from the other parts of the URL
-            \item Features derived from the webpage HTML and JavaScript
+              \item Features based on the domain and subdomains
+              \item Features derived from the other parts of the URL
+              \item Features derived from the webpage HTML and JavaScript
           \end{enumerate}
+          The data was split with 80:20 ratio into training and testing datasets, respectively.
+
 \end{enumerate}
 
 \section{Experiments and Results}
