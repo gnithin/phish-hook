@@ -61,11 +61,6 @@ def detect():
     return jsonify(resp)
 
 
-def is_whitelisted(url):
-    # TODO: Add logic
-    pass
-
-
 def is_phishing(url):
     global classifiers
     is_mal_count = 0
