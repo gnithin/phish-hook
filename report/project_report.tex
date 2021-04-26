@@ -45,10 +45,10 @@
     % The abstract should consist of at most 2 paragraphs and must discuss: a) the project’s motivation, i.e.why the problem and the proposed solution are important, b) the proposed approach from a high-level point of view, and c) the most important results and findings.
 
     Phishing is a cybercrime in which a target visits a website that is posing as a legitimate application, to lure individuals into providing sensitive data such as - banking and credit card details, and passwords.
-    An unsuspecting user can click a link in an email or social media platform, and be led to a phishing website, leading to frauds and identity thefts.
+    An unsuspecting user can click a link in an email or social media platform, and be led to a phishing website, which may lead to fraud and identity theft.
     Phishing is a widespread attack that still does not have a concrete solution.
     \par This report proposes a solution for the protection of end users through a browser extension while comparing various Machine Learning approaches to identify phishing websites.
-    Rule-based approaches can be limiting since there is always new phishing websites created everyday. Machine Learning based approaches aim to solve that, with the trade-off that results will be probabilistic rather than absolute. Experiments described in this report use a combination of these methods, which results in a model that serves the purpose well and requires little overall maintenance in the long run.
+    Rule-based approaches can be limiting since there are new phishing websites created everyday. Machine Learning based approaches aim to solve that, with the trade-off being that results will be probabilistic rather than absolute. Experiments described in this report use a combination of these methods, which results in a model that serves the purpose well and requires little overall maintenance in the long run.
 \end{abstract}
 
 % \begin{IEEEkeywords}
@@ -124,11 +124,11 @@ Therefore it is compatible with any Chromium implementation including Google Chr
 The extension monitors each web page that is visited by the user and fetches the URL of that webpage.
 It then communicates with the web server which tells if the given URL is part of a phishing attempt or not.
 The user is notified with the results of the analysis based on the response from server.
-The extension will stay silent in the background while the user is only visiting safe sites.
-It only \emph{bothers} them when there is a potential of phishing on the site they are currently visiting with an option to view detailed information to help them make a safer decision.
+The extension will stay silent in the background while the user is visiting websites that it has deemed safe.
+It only \emph{bothers} them when there is a potential of phishing on the site they are currently visiting help them make a safer decision.
 
 \paragraph{Python Web Server}
-The web server has an REST endpoint which takes in a URL and uses various Machine Learning techniques to classify it into categories.
+The web server has an REST endpoint which takes in a URL and uses Machine Learning techniques to classify it into categories.
 It extracts relevant ``features'' from the URL and feeds them to \emph{Classification Models} to determine the legitimacy of the URL.
 This process is expanded upon further down in this section.
 
@@ -182,11 +182,11 @@ As a common practice, the dataset on hand is split into training and testing dat
           And for sets of legitimate websites, the publicly available and community labeled lists are utilized\cite{citizenlablists}.
 \end{enumerate}
 
-\par Before the URL to be tested is sent to any of the Machine Learning models, they are checked against a whitelist.
+\par When the server receives the URL, before it can be tested by any of the Machine Learning models, it are checked against a whitelist.
 The whitelist is extracted from The Majestic Million dataset\cite{MajesticMillion} which maintains a list of top 1 million domains on the internet.
-The whitelist helps in reducing the processing and network overhead of checking the most popular sites which would be visited by an average user on a day to day basis.
+The whitelist helps in reducing the processing and network overhead of checking the most popular sites which would be visited by an average user on a day to day basis. The experiments sections further elaborates on the need for doing this.
 
-\par The machine learning models trained with both datasets are precomputed and stored on the server.
+\par The machine learning models are already trained with both datasets, are precomputed and stored on the server.
 If the given domain is not part of the whitelist, the URL is then passed on to these models.
 Whenever the server receives a URL to be tested, it extracts all the features from the given URL.
 Many of the features are extracted through string parsing and the rest of them require use of external APIs and libraries.
@@ -194,7 +194,7 @@ For example, PageRank of a given domain is fetched using Open PageRank API\cite{
 
 \par After extracting the relevant features for each dataset, they are passed on to the classification models and their ensembles.
 And the result is sent back based on the outputs of the various models. 
-One advantage of using a server based approach is essentially, results for different urls from different users can be cached. This can save recurring computation for the same url and even increases response times, from the point of view of a new user.
+One advantage of using a server based approach is essentially, results for different URLs from different users can be cached. This can save recurring computation for the same URL across users and decreases response times on repeated requests.
 
 
 \section{Experiments and Results}
@@ -207,15 +207,15 @@ One advantage of using a server based approach is essentially, results for diffe
 
 Experiments in this report mainly concern 2 things - Effectiveness and Efficiency of Phishing detection. Due to the nature of the problem, the focus was more on effectiveness since there were a lot of parameters to tune. That being said, efficiency concerns are legitimate and were explored as well.
 
-\par One of the important characteristics of a machine learning model is the data-set that is used to train it. The nature of the data-set greatly impacts the effectiveness of the result. Initially, Experiments were done on various data-sets that were available across the web using simple classification methods and the accuracy results were compared to the filter out ineffective collections.
+\par One of the important characteristics of a machine learning model is the data-set that is used to train it. The nature of the data-set greatly impacts the effectiveness of the result. Initially, Experiments were done on various data-sets that were available across the web using simple classification methods and the accuracy results were compared to the filter out the ineffective collections.
 
-\par The decision to use two data-sets as a part of the final application was based on the observation that "Phishing Websites Dataset" had a lot of non-url based features that which worked very well based off of the content of the website. In contrast, "Datasets for Phishing websites detection" data-set contains 97 features that depended only on the URL structure, which are effective in detecting phishing websites. The inclusion of both these data-sets, with the result from their combined models, effectively acts as a way for the result to have legitimate checks and balances as well. If both the models predict that a website might be a phishing website, there is a high probability that it is true. Whenever there is a partial agreement, it is prudent to let the user know and be the final-arbiter of this conflict. This exploration allowed the feature of "Caution" vs "Alert" notifications to come up organically.
+\par The decision to use two data-sets as a part of the final application was based on the observation that "Phishing Websites Dataset"\cite{UCIDataset} had a lot of non-url based features that which worked very well based off of the content of the website. In contrast, "Datasets for Phishing websites detection"\cite{GregaDataset} data-set contains 97 features that depended only on the URL structure, which are effective in detecting phishing websites. The inclusion of both these data-sets, with the result from their combined models, effectively acts as a way for the result to have legitimate checks and balances as well. If both the models predict that a website might be a phishing website, there is a high probability that it is true. Whenever there is a partial agreement, it is prudent to let the user know and be the final-arbiter of this conflict. This exploration allowed the feature of "Caution" vs "Alert" notifications to come up organically.
 
-\par The models were built by splitting a portion of the input as training and test data, using a Decision Tree classifier and cross-validated into 10 splits. It was verified manually by using it as an extension is regular day-to-day browsing, to flag obvious errors. For the model from the dataset "Datasets  for  phishing  websites  detection", it was noticed that the accuracy of the model was high with the test data, but performed rather poorly with random samples from the real world. This lead to the hypothesis that the model was overfitting the data-set. This lead to the introduction of the ensembles for this model in particular. The combination of additional classifiers were tested out and verified with the same methods, until a minimum accuracy of 80\% was achieved.
+\par The models were built by splitting a portion of the input as training and test data, using a Decision Tree classifier and cross-validated into 10 splits. It was verified manually by using it as an extension in regular day-to-day browsing, to flag obvious errors. For the model from the dataset "Datasets  for  phishing  websites  detection"\cite{GregaDataset}, it was noticed that the accuracy of the model was high with the test data, but performed rather poorly with random samples from the real world. This lead to the hypothesis that the model was over-fitting the data-set. This lead to the introduction of the ensembles for this model in particular. The combination of additional classifiers were tried out (Decision Tree, k-Nearest Neighbors and Random Forest) and verified with the same methods, until a minimum accuracy of 80\% was achieved.
 
-\par Tuning individual classifiers is also detrimental to the overall accuracy measurement of a model. For the "Datasets  for  phishing  websites  detection" model, the classification-ensemble contained a K-Nearest Neighbor classifier. The number of neighbors for the classification was tuned to the effect that it over-fit the data. This was fruitful, since the ensemble of different classifiers helped reduce of overfitting the overall model.
+\par Tuning individual classifiers is also detrimental to the overall accuracy measurement of a model. For the "Datasets  for  phishing  websites  detection"\cite{GregaDataset} model, the classification-ensemble contained a K-Nearest Neighbor classifier. The number of neighbors for the classification was increased to the effect, that it over-fit the data. This was fruitful, since the ensemble of different classifiers helped reduce overall variance of the model.
 
-\par The above experiments were predominantly effectiveness based approaches. Although using a combination of two models, help improve the overall goal of detecting phishing websites, it came at the cost of the delay in prediction. Steps were taken to parallelize the flow of aggregating the predictions from the two models. That being said, there is no denying the fact that using a classifier to predict outcomes is inherently an expensive process for a model. In a resource constrained environment, it must be called upon only when truly necessary. And once it's called upon, it is prudent for its results to be reused, to save the cost of classifying again. To this effect, a "Whitelist" of frequently used websites was added to skip prediction entirely, for overtly obvious websites. Since the intended application of this classification is in browser extensions,  the fact that users will browse popular websites frequently is not an entirely unfair assumption. This rule-based counterpart for the Machine Learning classifier helps improve the overall efficiency of the server.
+\par The above experiments were predominantly effectiveness-based approaches. Although using a combination of two models helped improve the overall goal of detecting phishing websites, it came at the cost of the delay in prediction. Steps were taken to parallelize the flow of aggregating the predictions from the two models. That being said, there is no denying the fact that using a classifier to predict outcomes is inherently an expensive process. In a resource constrained environment, it must be called upon only when truly necessary. And once it's called upon, it is prudent for its results to be reused, to save the cost of classifying again. To this effect, a "Whitelist" of frequently used websites was added to skip prediction entirely, for overtly obvious websites. Since the intended application of this classification is in browser extensions,  the fact that users will browse popular websites frequently is not an entirely unfair assumption. Caching the results on the server also goes well with this approach. This rule-based counterpart for the Machine Learning classifier helps improve the overall efficiency of the server.
 
 \begin{table}[htbp]
     \caption{Performance Results of the Models}
@@ -248,7 +248,7 @@ It is apparent from various experiments and observations that the ideal solution
 \par For the enhancement of this implementation, there seems to be a potential to improve the machine learning models as well as the features that are being used for classification.
 The extension and the server can be updated to also take in user feedback regarding a misclassification of any site.
 And the feedback would be considered by the classification models to improve their performance.
-Although, it might introduce a fresh set of challenges such as abuse of the feedback system to pass off an illegitimate site as safe.
+Although, it might introduce a fresh set of challenges such as abuse of the feedback system to pass off an illegitimate site as safe (adversarial attacks).
 Potential solution to this problem would be to have a threshold on number of feedbacks until which the system does not consider them for the particular website.
 
 \par The solution proposed and implemented in this project can be a genesis to a series of tools and products which strive to solve the issue of phishing attacks on the internet.
