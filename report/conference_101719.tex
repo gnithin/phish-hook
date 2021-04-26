@@ -9,6 +9,13 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black},
+}
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -126,9 +133,9 @@ It extracts relevant ``features'' from the URL and feeds them to \emph{Classific
 This process is expanded upon further down in this section.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[scale=.5]{phish-arch.png}}
-\caption{Architecture overview of the application}
-\label{fig}
+    \centerline{\includegraphics[scale=.5]{phish-arch.png}}
+    \caption{Architecture overview of the application}
+    \label{fig}
 \end{figure}
 
 \par Classification is a process of categorizing a given set of data into classes.
@@ -199,7 +206,7 @@ And the result it sent back based on the outputs of the various models.
 
 Experiments in this report mainly concern 2 things - Effectiveness and Efficiency of Phishing detection. Due to the nature of the problem, the focus was more on effectiveness since there were a lot of parameters to tune. That being said, efficiency concerns are legitimate and were explored as well.
 
-\par One of the important characteristics of a machine learning model is the data-set that is used to train it. The nature of the data-set greatly impacts the effectiveness of the result. Initially, Experiments were done on various data-sets that were available across the web using simple classification methods and the accuracy results were compared to the filter out ineffective collections. 
+\par One of the important characteristics of a machine learning model is the data-set that is used to train it. The nature of the data-set greatly impacts the effectiveness of the result. Initially, Experiments were done on various data-sets that were available across the web using simple classification methods and the accuracy results were compared to the filter out ineffective collections.
 
 \par The decision to use two data-sets as a part of the final application was based on the observation that "Phishing Websites Dataset" had a lot of non-url based features that which worked very well based off of the content of the website. In contrast, "Datasets for Phishing websites detection" data-set contains 97 features that depended only on the URL structure, which are effective in detecting phishing websites. The inclusion of both these data-sets, with the result from their combined models, effectively acts as a way for the result to have legitimate checks and balances as well. If both the models predict that a website might be a phishing website, there is a high probability that it is true. Whenever there is a partial agreement, it is prudent to let the user know and be the final-arbiter of this conflict. This exploration allowed the feature of "Caution" vs "Alert" notifications to come up organically.
 
@@ -209,7 +216,7 @@ Experiments in this report mainly concern 2 things - Effectiveness and Efficienc
 
 \par The above experiments were predominantly effectiveness based approaches. Although using a combination of two models, help improve the overall goal of detecting phishing websites, it came at the cost of the delay in prediction. Steps were taken to parallelize the flow of aggregating the predictions from the two models. That being said, there is no denying the fact that using a classifier to predict outcomes is inherently an expensive process for a model. In a resource constrained environment, it must be called upon only when truly necessary. And once it's called upon, it is prudent for its results to be reused, to save the cost of classifying again. To this effect, a "Whitelist" of frequently used websites was added to skip prediction entirely, for overtly obvious websites. Since the intended application of this classification is in browser extensions,  the fact that users will browse popular websites frequently is not an entirely unfair assumption. This rule-based counterpart for the Machine Learning classifier helps improve the overall efficiency of the server.
 
-\par The implementation of the report can be found in this repository, which contains the source-code as well as steps to get it running on a local machine - https://github.com/gnithin/phish-hook
+\par The implementation of the report can be found in this repository, which contains the source-code as well as steps to get it running on a local machine - \href{https://github.com/gnithin/phish-hook}{https://github.com/gnithin/phish-hook}
 
 \section{Conclusion and Future Work}
 % [≈ 1 to 2 paragraphs]
@@ -220,8 +227,13 @@ As the attacks keep getting more and more sophisticated, the solutions to preven
 The traditional methods to detect attacks need to be combined with the growing fields of machine learning and artificial intelligence.
 It is apparent from various experiments and observations that the ideal solution to such issues, if any, is to combine best of all approaches and make them work with each other.
 
-\par The solution proposed and implemented in this project can be a genesis to a series of tools and products in the future which strive to solve the issue of phishing attacks on the internet.
-There seems to be a great potential to improve the machine learning models as well as the features that are being used for classification.
+\par For the enhancement of this implementation, there seems to be a potential to improve the machine learning models as well as the features that are being used for classification.
+The extension and the server can be updated to also take in user feedback regarding a misclassification of any site.
+And the feedback would be considered by the classification models to improve their performance.
+Although, it might introduce a fresh set of challenges such as abuse of the feedback system to pass off an illegitimate site as safe.
+Potential solution to this problem would be to have a threshold on number of feedbacks until which the system does not consider them for the particular website.
+
+\par The solution proposed and implemented in this project can be a genesis to a series of tools and products which strive to solve the issue of phishing attacks on the internet.
 The existing rule-based solutions which use HTML properties of the webpage can be incorporated into the machine learning models for potential improvement in performance.
 The existing REST APIs and the Python interfaces can also be reused to monitor phishing in other contexts.
 There can be an Android application which monitors the URLs visited by the user and notifies them if any of them have a potential to be a threat.
@@ -232,7 +244,7 @@ And the same use case can be applied to other platforms, operating systems and a
 % The contribution is an important section in the final report. Specifically, this section describes what 
 % each team member worked on and contributed to the project. The grading policy will be further 
 % explained in a separate file and will be shared with students.
-This project has been a collaborative effort. Most of the tasks were done together. These tasks include - Scouting for data-sets, extraction of features and creating Machine Learning models, tuning and testing the extension, and programming the Chrome extension. 
+This project has been a collaborative effort. Most of the tasks were done together. These tasks include - Scouting for data-sets, extraction of features and creating Machine Learning models, tuning and testing the extension, and programming the Chrome extension.
 
 In some of the tasks, one person shouldered more responsibility while the other followed. Tanmay took the lead in writing up the report in Latex, while Nithin worked on setting up the REST endpoints in Python.
 
