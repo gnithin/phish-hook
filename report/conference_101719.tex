@@ -142,14 +142,17 @@ As a common practice, the dataset on hand is split into training and testing dat
     \item K-Nearest Neighbors (KNN):
           The KNN algorithm assumes that similar things are \emph{near} to each other.
           Based on this assumption, it classifies all nearby data points into one.
-          Then, it classifies the given input by locating N-nearest neighbors and finding mode of their labels.
-          That mode is determined to be the label of the input set.
+          Then, it classifies the given input by locating N-nearest neighbors and finding mode of their labels which is predicted to be the label of the input set.
     \item Random Forests:
+          Random Forests consist of a large number of Decision Trees that operate as an ensemble.
+          Each tree in a forest classifies the given input set to a label and the label with the highest number of votes is considered as the prediction of the Random Forest.
+          \par The individual trees in a random forest are relatively \emph{uncorrelated}, and they perform better as an ensemble than they would on their own.
+          To put it in layman's terms, the trees safeguard each other from their individual errors.
 \end{enumerate}
 
 \par The following section describes the datasets used for training and testing the models with the aforementioned classifiers.
 \begin{enumerate}
-    \item Phishing Websites Dataset by UCI\cite{UCIDataset}:
+    \item Phishing Websites Dataset\cite{UCIDataset}:
           This dataset has 11,055 datapoints with 6,157 legitimate URLs and 4,898 phishing URLs.
           And it contains 30 features subdivided into three categories:
           \begin{enumerate}
@@ -158,11 +161,16 @@ As a common practice, the dataset on hand is split into training and testing dat
               \item Features derived from the webpage HTML and JavaScript
           \end{enumerate}
           The data was split with 80:20 ratio into training and testing datasets, respectively.
+    \item Datasets for phishing websites detection\cite{GregaDataset}:
+          This dataset consists of 111 features, of which 97 are based on the URL.
+          For the phishing websites, the list was extracted from the PhishTank registry which are verified by multiple users.
+          And for sets of legitimate websites, the publicly available and community labeled lists are utilized\cite{citizenlablists}.
+          The data was split with 80:20 ratio into training and testing datasets, respectively.
 \end{enumerate}
 
 The models trained with both datasets are precomputed and stored on the server.
-Whenever the server receives a URL to be verified, it extracts all the features from the given URL.
-Many of the features are extracted through string parsing and the rest of them require use of external APIs and library.
+Whenever the server receives a URL to be tested, it extracts all the features from the given URL.
+Many of the features are extracted through string parsing and the rest of them require use of external APIs and libraries.
 For example, PageRank of a given domain is fetched using Open PageRank API \cite{OpenPageRank}.
 
 \section{Experiments and Results}
