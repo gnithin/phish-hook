@@ -98,6 +98,8 @@ And that calls for a solution which monitors all the web activity to identify ph
 \par There are various other browser extensions which virtually have the same limitations as the aforementioned solutions\cite{BlueArca}\cite{Retruster}\cite{PhishingBoat}
 As their limitations are encompassed in the discussion of other solutions above, their detailed discussion has been omitted for brevity.
 
+\par To summarize, there are various browser plugins consisting of rule-based systems, simple whitelists-blacklists and some even making use of Machine Learning and Artificial Intelligence. But there needs to be a solution which utilizes all available phishing detection methods to protect the average internet user from criminals.
+
 \section{Approach}
 % From the report requirement:
 % [≈ 1 to 1.5 pages]
@@ -132,9 +134,8 @@ That creates a classification model which is given a set of inputs without their
 That constitutes the second stage where the correctness of the newly created classification model is compared against the actual labels.
 The input set given to the model for the second stage is often referred to as \emph{testing dataset} and the data used for the first stage is called \emph{training dataset}.
 As a common practice, the dataset on hand is split into training and testing datasets for creation and testing of the classification models, respectively.
-% explain each classifiers, ensembles then datasets and then what features
 
-\par The classifiers used in the project are described below:
+\par The classifiers used in this project are described below:
 \begin{enumerate}
     \item Decision Trees:
           Decision Trees belong to the family of supervised machine learning algorithms.
@@ -160,18 +161,23 @@ As a common practice, the dataset on hand is split into training and testing dat
               \item Features derived from the other parts of the URL
               \item Features derived from the webpage HTML and JavaScript
           \end{enumerate}
-          The data was split with 80:20 ratio into training and testing datasets, respectively.
     \item Datasets for phishing websites detection\cite{GregaDataset}:
           This dataset consists of 111 features, of which 97 are based on the URL.
           For the phishing websites, the list was extracted from the PhishTank registry which are verified by multiple users.
           And for sets of legitimate websites, the publicly available and community labeled lists are utilized\cite{citizenlablists}.
-          The data was split with 80:20 ratio into training and testing datasets, respectively.
 \end{enumerate}
 
-The models trained with both datasets are precomputed and stored on the server.
+\par Before the URL to be tested is sent to any of the Machine Learning models, they are checked against a whitelist.
+The whitelist is extracted from The Majestic Million dataset\cite{MajesticMillion} which maintains a list of top 1 million domains on the internet.
+The whitelist helps in reduce processing and network overhead of checking the most popular sites which would be visited by an average user on a day to day basis.
+
+\par The machine learning models trained with both datasets are precomputed and stored on the server.
+If the given domain is not part of the whitelist, the URL is then passed on to these models.
 Whenever the server receives a URL to be tested, it extracts all the features from the given URL.
 Many of the features are extracted through string parsing and the rest of them require use of external APIs and libraries.
-For example, PageRank of a given domain is fetched using Open PageRank API \cite{OpenPageRank}.
+For example, PageRank of a given domain is fetched using Open PageRank API\cite{OpenPageRank}.
+
+\par After extracting the relevant features for each dataset, they are passed on to the classification models and their ensembles. And the result it sent back based on the outputs of the various models.
 
 \section{Experiments and Results}
 % [≈ 1 to 3 pages]
