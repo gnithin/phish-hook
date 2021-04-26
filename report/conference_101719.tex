@@ -57,8 +57,8 @@ Attackers utilize phishing which exploits naivety of users to trick them into ha
 This poses a great risk not only to the users themselves but the organizations and institutions of which they are a part of.
 According to recent research from Proofpoint, 75\% of organizations around the world experienced a phishing attack in 2020, and 74\% of attacks targeting US businesses were successful \cite{stateofphishing}.
 
-\par Apart from increasing security awareness among users, we must develop tools which complement that awareness to help them make safe decisions.
-This report proposes and demonstrates a \href{https://www.chromium.org/Home}{Chromium}-based browser extension to help mitigate the risk of phishing while browsing the web.
+\par Apart from increasing security awareness among users, the tools which complement that awareness to help users make safe decisions must be developed.
+This report proposes and demonstrates a Chromium-based browser extension to help mitigate the risk of phishing while browsing the web.
 The central idea of the browser extension is to notify the user whenever they open any \emph{potential} phishing website.
 
 \par The solution also includes a Python web server which utilizes various Machine Learning classification techniques to determine the legitimacy of the webpage in question.
@@ -117,7 +117,43 @@ The extension will stay silent in the background while the user is only visiting
 It only \emph{bothers} them when there is a potential of phishing on the site they are currently visiting with an option to view detailed information to help them make a safer decision.
 
 \paragraph{Python Web Server}
-The web server has an REST endpoint which takes in a URL and uses various Machine Learning techniques to classify it into "spam" and "not spam" categories.
+The web server has an REST endpoint which takes in a URL and uses various Machine Learning techniques to classify it into categories.
+It extracts relevant ``features'' from the URL and feeds them to \emph{Classification Models} to determine the legitimacy of the URL.
+This process is expanded upon further down in this section.
+
+\par Classification is a process of categorizing a given set of data into classes.
+In this case, there would be two classification labels: ``spam'' and ``not spam''.
+And the input data would be values of various features of the URL which are deemed effective for high quality classification of any URL into one of the classes.
+
+
+\par The process of creating a classification model consists of two primary stages.
+The first is the training stage where a classifier is fed a large amount of input with along with their respective class labels.
+That creates a classification model which is given a set of inputs without their respective labels to let it classify each input to a class.
+That constitutes the second stage where the correctness of the newly created classification model is compared against the actual labels.
+The input set given to the model for the second stage is often referred to as \emph{testing dataset} and the data used for the first stage is called \emph{training dataset}.
+As a common practice, the dataset on hand is split into training and testing datasets for creation and testing of the classification models, respectively.
+% explain each classifiers, ensembles then datasets and then what features
+
+\par The classifiers used in the project are described below:
+\begin{enumerate}
+    \item Decision Trees:
+          Decision Trees belong to the family of supervised machine learning algorithms.
+          Decision trees classify the input by running them down the tree from the root node to some leaf node, whereas the leaf node provides the classification of the input.
+    \item K-Nearest Neighbors (KNN):
+    \item Random Forests:
+\end{enumerate}
+
+\par The following section describes the datasets used for training and testing the aforementioned classifiers.
+\begin{enumerate}
+    \item Phishing Websites Dataset by UCI\cite{UCIDataset}:
+          This dataset has 11055 datapoints with 6157 legitimate URLs and 4898 phishing URLs.
+          And it contains 30 features subdivided into three categories:
+          \begin{enumerate}
+            \item Features based on the domain and subdomains
+            \item Features derived from the other parts of the URL
+            \item Features derived from the webpage HTML and JavaScript
+          \end{enumerate}
+\end{enumerate}
 
 \section{Experiments and Results}
 % [≈ 1 to 3 pages]
