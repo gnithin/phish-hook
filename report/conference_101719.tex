@@ -201,6 +201,8 @@ Experiments in this report mainly concern 2 things - Effectiveness and Efficienc
 
 \par The above experiments were predominantly effectiveness based approaches. Although using a combination of two models, help improve the overall goal of detecting phishing websites, it came at the cost of the delay in prediction. Steps were taken to parallelize the flow of aggregating the predictions from the two models. That being said, there is no denying the fact that using a classifier to predict outcomes is inherently an expensive process for a model. In a resource constrained environment, it must be called upon only when truly necessary. And once it's called upon, it is prudent for its results to be reused, to save the cost of classifying again. To this effect, a "Whitelist" of frequently used websites was added to skip prediction entirely, for overtly obvious websites. Since the intended application of this classification is in browser extensions,  the fact that users will browse popular websites frequently is not an entirely unfair assumption. This rule-based counterpart for the Machine Learning classifier helps improve the overall efficiency of the server.
 
+\par The implementation of the report can be found in this repository, which contains the source-code as well as steps to get it running on a local machine - https://github.com/gnithin/phish-hook
+
 \section{Conclusion and Future Work}
 % [≈ 1 to 2 paragraphs]
 % You should summarize your entire report in this section by reiterating key points. Also, you should 
