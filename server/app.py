@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify
 from urllib.parse import urlparse
 from grega_classifier import GregaClassifier
+from uci_classifier import UciClassifier
 import pickle
 import numpy as np
-from uci import Phishing
 from whitelist import Whitelist
 from joblib import Parallel, delayed
 import functools
@@ -104,7 +104,7 @@ def setup_models():
     grega_clf = GregaClassifier(GREGA_MODEL_PATH)
     classifiers.append(grega_clf)
 
-    uci_clf = Phishing(UCI_MODEL_PATH)
+    uci_clf = UciClassifier(UCI_MODEL_PATH)
     classifiers.append(uci_clf)
 
 

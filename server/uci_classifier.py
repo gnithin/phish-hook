@@ -13,7 +13,7 @@ from typing import List
 from abstract_classifier import AbstractClassifier
 
 
-class Phishing:
+class UciClassifier(AbstractClassifier):
     PHISHING = -1
     SUSPICIOUS = 0
     LEGITIMATE = 1
