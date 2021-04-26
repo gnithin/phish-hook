@@ -41,6 +41,16 @@ def detect():
         resp["success"] = False
         resp["message"] = "Invalid url"
 
+    # check if url is whitelisted
+    elif whitelist.contains_url(url):
+        print(f"Whitelisted domain - {url}")
+
+        resp["success"] = True
+        resp["is_phishing"] = False
+        resp["consensus_reached"] = True
+        resp["payload"] = url
+        resp["message"] = "Whitelisted Url"
+
     else:
         resp["success"] = True
         phishing_result, consensus_reached = is_phishing(url)
@@ -57,10 +67,6 @@ def is_whitelisted(url):
 
 
 def is_phishing(url):
-    # check if url is whitelisted
-    if whitelist.contains_url(url)):
-        return (False, True)
-
     global classifiers
     is_mal_count = 0
     is_not_mal_count = 0
