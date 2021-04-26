@@ -6,6 +6,8 @@ import pickle
 import numpy as np
 from uci import Phishing
 from whitelist import Whitelist
+from joblib import Parallel, delayed
+
 
 app = Flask(__name__)
 classifiers = []
@@ -65,8 +67,17 @@ def is_phishing(url):
     global classifiers
     is_mal_count = 0
     is_not_mal_count = 0
-    for c in classifiers:
-        if c.predict(url):
+
+    def run_predict(c, url):
+        return c.predict(url)
+
+    # Predict in parallel
+    result = Parallel(n_jobs=len(classifiers))(
+        delayed(run_predict)(clf, url) for clf in classifiers
+    )
+
+    for r in classifiers:
+        if r:
             is_mal_count += 1
         else:
             is_not_mal_count += 1
