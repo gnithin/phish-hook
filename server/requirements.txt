@@ -1,1 +1,10 @@
-Flask
+Flask~=1.1.2
+numpy~=1.20.2
+requests~=2.25.1
+python-dateutil~=2.8.1
+python-dotenv~=0.17.0
+joblib~=1.0.1
+py3-validate-email
+tldextract
+python-whois
+scikit-learn
