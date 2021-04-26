@@ -20,7 +20,8 @@ GREGA_MODEL_PATH = "./models/grega/small-ensemble-knn-rf-dt.pkl"
 WHITELIST_CSV_PATH = "./data/whitelist_domains.csv"
 
 
-def is_valid_url(url):
+def is_valid_url_scheme(url):
+    """ Determine if the url has valid scheme for phishing-detection """
     if url is None or len(url.strip()) == 0:
         return False
     parsed_url = urlparse(url)
@@ -30,6 +31,7 @@ def is_valid_url(url):
 
 @app.route("/detect", methods=["POST"])
 def detect():
+    """ Endpoint to detect if the given url is a phishing url """
     url = request.form["url"]
     resp = {
         "success": True,
@@ -41,7 +43,7 @@ def detect():
 
     print(f"URL - {url}")
 
-    if not is_valid_url(url):
+    if not is_valid_url_scheme(url):
         resp["success"] = False
         resp["message"] = "Invalid url"
 
@@ -67,6 +69,7 @@ def detect():
 
 @functools.cache
 def is_phishing(url):
+    """ Given a url, is_phishing returns True if it's a phishing url, False otherwise """
     global classifiers
     is_mal_count = 0
     is_not_mal_count = 0
@@ -96,6 +99,7 @@ def is_phishing(url):
 
 
 def setup_models():
+    """ Initialize all the models """
     global classifiers
 
     grega_clf = GregaClassifier(GREGA_MODEL_PATH)
@@ -106,6 +110,7 @@ def setup_models():
 
 
 def setup_whitelist():
+    """ Fetch the whitelist externally and load it in the program """
     global whitelist
     whitelist.load(WHITELIST_CSV_PATH)
 
