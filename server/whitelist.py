@@ -15,8 +15,8 @@ class Whitelist:
     def contains_url(self, url):
         # get domain from url
         extract = tldextract.extract(url)
-        tld = f"{extract.domain}.{extract.suffix}"
-        print(tld)
+        tld = ".".join([l for l in [extract.domain, extract.suffix] if len(l) > 0])
+        print(f"TLD - {tld}")
 
         # lookup if in whitelist
         return tld in self.domain_set
