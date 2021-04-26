@@ -8,6 +8,7 @@ from uci import Phishing
 from whitelist import Whitelist
 from joblib import Parallel, delayed
 import functools
+import sys
 
 
 app = Flask(__name__)
@@ -110,11 +111,21 @@ def setup_whitelist():
 
 
 if __name__ == "__main__":
+    # Optional args to get the host and port
+    host = "0.0.0.0"
+    port = 9999
+
+    if len(sys.argv) > 1:
+        args = sys.argv[1:]
+        host = args[0]
+        if len(args) > 1:
+            port = int(args[1])
+
     print("Setting up whitelist")
     setup_whitelist()
 
     print("Loading the models!")
     setup_models()
 
-    print("Running the server")
-    app.run(host="0.0.0.0", port=9999)
+    print(f"Running the server on {host}:{port}")
+    app.run(host=, port=9999)
