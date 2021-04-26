@@ -87,7 +87,7 @@ The same API can also be reused as-is to implement a similar phishing detection 
 % section that have been published in top venues. Google Scholar is the best search engine to find
 % similar works
 \paragraph{PhishDetector\cite{PhishDetector}}
-This too is a Chromium extension which has set out to solve exactly the same problem as this project.
+This is a Chromium extension which has set out to solve exactly the same problem as this project.
 Based to its description on the website and the analysis of its behavior, it can be concluded that this extension uses a rule-based system to determine if a webpage is a phishing attempt.
 It also seems to be particularly accurate when it comes to identifying illegitimate banking pages.
 Even though rule-based systems are great for detecting simple phishing attempts, they are not ideal for more sophisticated phishing attempts.
@@ -184,7 +184,7 @@ As a common practice, the dataset on hand is split into training and testing dat
 
 \par Before the URL to be tested is sent to any of the Machine Learning models, they are checked against a whitelist.
 The whitelist is extracted from The Majestic Million dataset\cite{MajesticMillion} which maintains a list of top 1 million domains on the internet.
-The whitelist helps in reduce processing and network overhead of checking the most popular sites which would be visited by an average user on a day to day basis.
+The whitelist helps in reducing the processing and network overhead of checking the most popular sites which would be visited by an average user on a day to day basis.
 
 \par The machine learning models trained with both datasets are precomputed and stored on the server.
 If the given domain is not part of the whitelist, the URL is then passed on to these models.
@@ -193,7 +193,8 @@ Many of the features are extracted through string parsing and the rest of them r
 For example, PageRank of a given domain is fetched using Open PageRank API\cite{OpenPageRank}.
 
 \par After extracting the relevant features for each dataset, they are passed on to the classification models and their ensembles.
-And the result it sent back based on the outputs of the various models.
+And the result is sent back based on the outputs of the various models. 
+One advantage of using a server based approach is essentially, results for different urls from different users can be cached. This can save recurring computation for the same url and even increases response times, from the point of view of a new user.
 
 
 \section{Experiments and Results}
@@ -223,9 +224,9 @@ Experiments in this report mainly concern 2 things - Effectiveness and Efficienc
     \hline
     \textbf{Model} & \textbf{Accuracy}& \textbf{Precision}& \textbf{Recall}& \textbf{F1 Score} \\
     \hline
-    Ensemble Model\cite{UCIDataset}& 90.68& 92.69 & 89.20 & 90.92\\
+    Ensemble Model\cite{GregaDataset}& 90.68& 92.69 & 89.20 & 90.92\\
     \hline
-    Decision tree Model\cite{GregaDataset}& 80.37& 84.03 & 80.82 & 82.40 \\
+    Decision tree Model\cite{UCIDataset}& 80.37& 84.03 & 80.82 & 82.40 \\
     \hline
     \end{tabular}
     \label{tab1}
