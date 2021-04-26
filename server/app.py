@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 from urllib.parse import urlparse
-from features import get_features_for_url
 from grega_classifier import GregaClassifier
 import pickle
 import numpy as np
@@ -133,4 +132,4 @@ if __name__ == "__main__":
     setup_models()
 
     print(f"Running the server on {host}:{port}")
-    app.run(host=, port=9999)
+    app.run(host=host, port=9999)

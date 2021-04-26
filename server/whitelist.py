@@ -3,6 +3,8 @@ import tldextract
 
 
 class Whitelist:
+    """ Represents a set of urls that are whitelisted """
+
     def __init__(self):
         self.domain_set = set()
 
