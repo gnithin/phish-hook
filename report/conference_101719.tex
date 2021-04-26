@@ -154,8 +154,12 @@ As a common practice, the dataset on hand is split into training and testing dat
               \item Features derived from the webpage HTML and JavaScript
           \end{enumerate}
           The data was split with 80:20 ratio into training and testing datasets, respectively.
-
 \end{enumerate}
+
+The models trained with both datasets are precomputed and stored on the server.
+Whenever the server receives a URL to be verified, it extracts all the features from the given URL.
+Many of the features are extracted through string parsing and the rest of them require use of external APIs and library.
+For example, PageRank of a given domain is fetched using Open PageRank API \cite{OpenPageRank}.
 
 \section{Experiments and Results}
 % [≈ 1 to 3 pages]
