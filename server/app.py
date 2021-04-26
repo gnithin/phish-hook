@@ -12,7 +12,7 @@ classifiers = []
 whitelist = Whitelist()
 
 UCI_MODEL_PATH = "./models/uci/decision-uci.joblib"
-GREGA_MODEL_PATH = "./models/grega/ensemble-knn-rf-dt.pkl"
+GREGA_MODEL_PATH = "./models/grega/small-ensemble-knn-rf-dt.pkl"
 WHITELIST_CSV_PATH = "./data/whitelist_domains.csv"
 
 
