@@ -1,5 +1,6 @@
 import csv
 import tldextract
+import functools
 
 
 class Whitelist:
@@ -14,6 +15,7 @@ class Whitelist:
             for r in reader:
                 self.domain_set.add(r[-1])
 
+    @functools.cache
     def contains_url(self, url):
         # get domain from url
         extract = tldextract.extract(url)
